@@ -1,0 +1,92 @@
+﻿<!doctype html>
+<html lang="fr">
+	<head>
+		<title>Geolocation test</title>
+		<link rel="StyleSheet" type="text/css" href="./custom.css"> 
+	</head>
+	<body>
+
+		<div id="map"></div>
+
+		<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+
+		<script type="text/javascript">
+
+			var geolocationErrorManager = function( error ) {
+				var errorInfo = "Error found geolocating : ";
+
+				switch( error.code ) {
+					case error.TIMEOUT:
+						errorInfo += "Timeout before located.";
+						break;
+					case error.PERMISSION_DENIED:
+						errorInfo += "You don't allow geolocation.";
+						break;
+					case error.POSITION_UNAVAILABLE:
+						errorInfo += "Location can't be determined.";
+						break;
+					case error.UNKNOWN_ERROR:
+						errorInfo += "unknown error.";
+						break;
+				}
+			}
+
+			var setUserLocation = function( position ) {
+				/*console.log(
+					"Latitude : " + position.coords.latitude +
+					"\nLongitude: " + position.coords.longitude +
+					"\nAltitude : " + position.coords.altitude
+				);*/
+	 
+			    // set new 'LatLng' object with coordinates
+			    latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+			 
+			    // Add markup at coordinates position
+			    var marker = new google.maps.Marker({
+													position: latlng,
+													map: map,
+													title:"You are here"
+			    });
+			    
+			    // center map on latlng position
+			    map.panTo(latlng);
+			}
+
+
+
+
+			// Default location (Paris)
+			var defaultLocation = new google.maps.LatLng(48.856578, 2.351828);
+
+			// Map options
+			var optionsGGmaps = {
+								center:defaultLocation,
+								mapTypeId: google.maps.MapTypeId.ROADMAP, // ROADMAP can be replaced by SATELLITE, HYBRID or TERRAIN
+								zoom: 14 // Zoom : 0 = entire earth, 19 = street level
+			};
+			 
+			// Map Initialisation on element's ID "map"
+			var map = new google.maps.Map( document.getElementById('map'), optionsGGmaps );
+			  
+			var latlng; // stocks coordinates data
+
+
+			if( navigator.geolocation ) {
+				// API available
+				navigator.geolocation.getCurrentPosition(
+															setUserLocation,
+															geolocationErrorManager,
+															{
+																maximumAge: 6000,
+																enableHighAccuracy: true
+															}
+				);
+			}
+			else {
+			  // geolocation not supported
+			}
+		</script>
+
+
+	</body>
+</hmtl>
