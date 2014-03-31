@@ -13,4 +13,4 @@ A simple geolocation test interacting with Google Map API
 - Add a markup on the Map with those coordinates
 - Manage geolocation error
 
-    by antoinefriteau
+    by antoinefriteau © 2014
